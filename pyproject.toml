@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dash-startup-loading-plugin"
+version = "1.0.1"
+description = "A configurable full-screen startup loading overlay for Dash apps, packaged as a Dash Hooks plugin."
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+      { name = "Ethan Zhang", email = "ethan.zhang2016@gmail.com" }
+]
+keywords = ["dash", "plotly", "loading", "plugin"]
+classifiers = ["Framework :: Dash"]
+license = "MIT"
+license-files = ["LICENSE"]
+dependencies = [
+    "dash>=3.0.3",
+]
+
+[dependency-groups]
+test = [
+    "pytest>=8",
+]
+
+[project.scripts]
+dash-startup-loading-plugin = "dash_startup_loading_plugin.examples:main"
+
+[project.entry-points."dash_hooks"]
+dash_startup_loading_plugin = "dash_startup_loading_plugin"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+dash_startup_loading_plugin = [
+    "README.zh-CN.md",
+    "resources/*.css",
+    "resources/*.js",
+]
+
+[tool.pytest.ini_options]
+addopts = "-q -p no:cacheprovider"
+testpaths = ["tests"]

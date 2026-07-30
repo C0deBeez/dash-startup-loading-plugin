@@ -1,0 +1,64 @@
+.dash-loading {
+    position: fixed;
+    inset: 0;
+    z-index: var(--dash-loading-z-index, 9999);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    opacity: 1;
+    color: var(--dash-loading-color, #1677ff);
+    background: var(--dash-loading-background, #fff);
+    transition: opacity var(--dash-loading-fade-duration, 160ms) ease;
+}
+
+.dash-loading.is-ready {
+    pointer-events: none;
+    opacity: 0;
+}
+
+.dash-loading__content {
+    display: grid;
+    place-items: center;
+}
+
+.dash-loading__spinner {
+    box-sizing: border-box;
+    display: block;
+    width: var(--dash-loading-size, 28px);
+    height: var(--dash-loading-size, 28px);
+    border: var(--dash-loading-stroke, 3px) solid transparent;
+    border-top-color: currentcolor;
+    border-radius: 50%;
+    animation: dash-loading-spin 0.8s linear infinite;
+}
+
+.dash-loading--hide-default ~ #react-entry-point ._dash-loading,
+.dash-loading--hide-default ~ * ._dash-loading {
+    display: none;
+}
+
+html[data-dash-loading-theme="light"] .dash-loading {
+    color: var(--dash-loading-color, #1677ff);
+    background: var(--dash-loading-background, #fff);
+}
+
+html[data-dash-loading-theme="dark"] .dash-loading {
+    color: var(--dash-loading-dark-color, #4096ff);
+    background: var(--dash-loading-dark-background, #0f0f0f);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dash-loading {
+        transition: none;
+    }
+
+    .dash-loading__spinner {
+        animation-duration: 1.6s;
+    }
+}
+
+@keyframes dash-loading-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

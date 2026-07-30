@@ -18,7 +18,7 @@
 ## 安装
 
 ```bash
-pip install "dash-startup-loading-plugin>=1.0.1"
+pip install "dash-startup-loading-plugin>=1.0.2"
 ```
 
 Dash 会通过 `dash_hooks` entry point 自动发现插件。安装后，默认 loading

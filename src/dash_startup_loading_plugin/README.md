@@ -20,7 +20,7 @@ document.
 ## Installation
 
 ```bash
-pip install "dash-startup-loading-plugin>=1.0.1"
+pip install "dash-startup-loading-plugin>=1.0.2"
 ```
 
 Dash discovers the plugin through its `dash_hooks` entry point. Installing the

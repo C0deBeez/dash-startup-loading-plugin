@@ -39,6 +39,7 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 dash_startup_loading_plugin = [
+    "README.md",
     "README.zh-CN.md",
     "resources/*.css",
     "resources/*.js",

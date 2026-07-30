@@ -1,6 +1,7 @@
 # dash-startup-loading-plugin
 
-[English](README.md) | [简体中文](README.zh-CN.md)
+[English](https://github.com/C0deBeez/dash-startup-loading-plugin/blob/master/README.md) |
+[简体中文](https://github.com/C0deBeez/dash-startup-loading-plugin/blob/master/README.zh-CN.md)
 
 一个基于 [Dash Hooks 插件规范](https://dash.plotly.com/dash-plugins-using-hooks)
 的可安装插件，用于将 Dash 初始加载提示替换为可配置的全屏 loading 遮罩。

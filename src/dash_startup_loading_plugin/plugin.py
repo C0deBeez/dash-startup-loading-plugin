@@ -37,7 +37,7 @@ class StartupLoadingConfig:
     aria_label: str = "Loading"
     root_selector: str = "#react-entry-point"
     required_selectors: tuple[str, ...] = ("#react-entry-point",)
-    pending_selector: str | None = "[data-dac-async-placeholder]"
+    pending_selector: str | None = None
     timeout_ms: int | None = 6000
     minimum_display_ms: int = 0
     fade_duration_ms: int = 160

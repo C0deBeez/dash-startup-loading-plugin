@@ -61,6 +61,15 @@ def test_injects_overlay_after_body_with_custom_attributes():
     assert result.count(" data-dash-loading ") == 1
     assert '<span class="dash-loading__spinner"' in result
     assert _data_config(result)["requiredSelectors"] == ["#react-entry-point"]
+    assert _data_config(result)["pendingSelector"] is None
+
+
+def test_waiting_for_async_components_is_opt_in():
+    configure(pending_selector="[data-async-placeholder]")
+
+    result = _inject_overlay("<html><body><main></main></body></html>")
+
+    assert _data_config(result)["pendingSelector"] == "[data-async-placeholder]"
 
 
 def test_injection_is_idempotent_and_can_be_disabled():

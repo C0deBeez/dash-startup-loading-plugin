@@ -20,7 +20,7 @@ document.
 ## Installation
 
 ```bash
-pip install "dash-startup-loading-plugin>=1.0.2"
+pip install "dash-startup-loading-plugin>=1.0.3"
 ```
 
 Dash discovers the plugin through its `dash_hooks` entry point. Installing the
@@ -47,6 +47,10 @@ app.layout = html.Main(
 if __name__ == "__main__":
     app.run(debug=True)
 ```
+
+By default, the overlay only replaces Dash's built-in `._dash-loading`
+animation and closes once Dash has rendered the application layout. Waiting
+for lazy or asynchronous component placeholders is opt-in.
 
 Call `configure()` before creating `Dash` when custom behavior is needed:
 
@@ -166,16 +170,16 @@ The overlay closes when:
 1. `root_selector` exists and no longer contains `._dash-loading`.
 2. The root contains rendered content.
 3. Every `required_selectors` entry exists.
-4. No `pending_selector` node remains under the root.
+4. If `pending_selector` is configured, no matching node remains under the root.
 5. The conditions remain true for two animation frames.
 
 `timeout_ms` is a forced-dismiss fallback. `minimum_display_ms` applies to
 ready and manual dismissal, but does not delay a timeout.
 
-`pending_selector` delays dismissal while any matching element remains inside
-`root_selector`. It is useful for lazy or asynchronous placeholders that are
-mounted before the real content. Set it to an application-specific CSS
-selector, or use `None` when no pending-node check is needed:
+`pending_selector` optionally delays dismissal while any matching element
+remains inside `root_selector`. It is useful for lazy or asynchronous
+placeholders that are mounted before the real content. The check is disabled
+by default; opt in with an application-specific CSS selector:
 
 ```python
 configure(pending_selector="[data-async-placeholder]")
@@ -194,7 +198,7 @@ configure(pending_selector=None)
 | `aria_label` | `"Loading"` | Accessible status label. |
 | `root_selector` | `"#react-entry-point"` | Root observed for rendered content. |
 | `required_selectors` | `("#react-entry-point",)` | Selectors that must exist before dismissal. |
-| `pending_selector` | `"[data-dac-async-placeholder]"` | Selector checked under `root_selector`; dismissal waits until all matches disappear. Use `None` to disable. |
+| `pending_selector` | `None` | Optional selector checked under `root_selector`; when configured, dismissal waits until all matches disappear. |
 | `timeout_ms` | `6000` | Forced-dismiss timeout; use `None` to disable. |
 | `minimum_display_ms` | `0` | Minimum display time. |
 | `fade_duration_ms` | `160` | Fade-out duration. |

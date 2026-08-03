@@ -18,7 +18,7 @@
 ## 安装
 
 ```bash
-pip install "dash-startup-loading-plugin>=1.0.2"
+pip install "dash-startup-loading-plugin>=1.0.3"
 ```
 
 Dash 会通过 `dash_hooks` entry point 自动发现插件。安装后，默认 loading
@@ -45,6 +45,9 @@ app.layout = html.Main(
 if __name__ == "__main__":
     app.run(debug=True)
 ```
+
+默认情况下，遮罩只替换 Dash 自带的 `._dash-loading` 动画，并在 Dash
+渲染出应用布局后关闭。等待懒加载或异步组件的占位节点消失属于可选行为。
 
 如需自定义行为，请在创建 `Dash` 实例前调用 `configure()`：
 
@@ -160,15 +163,15 @@ dash-startup-loading-plugin examples.dash \
 1. `root_selector` 已存在，且内部不再包含 `._dash-loading`。
 2. 根节点中已有实际渲染内容。
 3. `required_selectors` 中的所有选择器都已匹配到节点。
-4. 根节点中已不存在匹配 `pending_selector` 的节点。
+4. 如果配置了 `pending_selector`，根节点中已不存在匹配它的节点。
 5. 上述状态连续保持两个动画帧。
 
 `timeout_ms` 是强制关闭的安全兜底。`minimum_display_ms` 适用于正常就绪和
 手动关闭，但不会延迟 timeout。
 
-`pending_selector` 用于在异步或懒加载占位节点仍存在时延迟关闭遮罩。它只会
-在 `root_selector` 内查找匹配节点。可以设置为应用自己的 CSS 选择器；如果
-不需要检查占位节点，请设置为 `None`：
+`pending_selector` 可用于在异步或懒加载占位节点仍存在时延迟关闭遮罩。它只会
+在 `root_selector` 内查找匹配节点。该检查默认关闭；如需等待异步组件加载完成，
+请显式设置为应用自己的 CSS 选择器：
 
 ```python
 configure(pending_selector="[data-async-placeholder]")
@@ -186,7 +189,7 @@ configure(pending_selector=None)
 | `aria_label` | `"Loading"` | 无障碍状态标签。 |
 | `root_selector` | `"#react-entry-point"` | 用于观察渲染内容的根节点。 |
 | `required_selectors` | `("#react-entry-point",)` | 关闭遮罩前必须存在的节点选择器。 |
-| `pending_selector` | `"[data-dac-async-placeholder]"` | 在 `root_selector` 内检查；所有匹配节点消失后才允许关闭。设置为 `None` 可禁用。 |
+| `pending_selector` | `None` | 可选的根节点内选择器；配置后，所有匹配节点消失才允许关闭。 |
 | `timeout_ms` | `6000` | 强制关闭超时；设置为 `None` 可禁用。 |
 | `minimum_display_ms` | `0` | 最短显示时间。 |
 | `fade_duration_ms` | `160` | 淡出时长。 |

@@ -211,6 +211,22 @@ def test_theme_bootstrap_supports_dash_tailwind_and_mantine_conventions():
     assert 'name === "system" || name === "auto"' in script
 
 
+def test_theme_bootstrap_defaults_to_light_without_an_app_preference():
+    script = (
+        files("dash_startup_loading_plugin")
+        .joinpath("resources/theme.js")
+        .read_text(encoding="utf-8")
+    )
+
+    assert (
+        'rootTheme() || dashPersistenceTheme() || conventionalStoredTheme() || "light"'
+        in script
+    )
+    assert 'conventionalStoredTheme() || "system"' not in script
+    assert 'theme === "system"' in script
+    assert 'matchMedia("(prefers-color-scheme: dark)")' in script
+
+
 def test_theme_bootstrap_serializes_component_id_and_explicit_mode():
     configure(theme_mode="dark", dash_theme_component_id="theme-provider")
 

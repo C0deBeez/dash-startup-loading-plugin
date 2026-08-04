@@ -92,7 +92,7 @@
         theme = dashPersistenceTheme();
     }
     if (!theme) {
-        theme = rootTheme() || dashPersistenceTheme() || conventionalStoredTheme() || "system";
+        theme = rootTheme() || dashPersistenceTheme() || conventionalStoredTheme() || "light";
     }
     if (theme === "system") {
         theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";

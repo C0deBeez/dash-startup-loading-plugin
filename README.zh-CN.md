@@ -18,7 +18,7 @@
 ## 安装
 
 ```bash
-pip install "dash-startup-loading-plugin>=1.0.3"
+pip install "dash-startup-loading-plugin>=1.0.4"
 ```
 
 Dash 会通过 `dash_hooks` entry point 自动发现插件。安装后，默认 loading
@@ -70,6 +70,27 @@ app.layout = html.Main(
         html.Nav("Sidebar", id="sidebar-menu"),
     ]
 )
+```
+
+### 主题行为
+
+默认的 `theme_mode="auto"` 会按顺序读取应用显式提供的主题：HTML 根节点
+（包括 Tailwind 的 `dark`/`light` 类及常见主题 data 属性）、Dash 组件的
+持久化主题值，以及 local storage 中的常见主题键。如果应用没有声明主题
+偏好，loading 遮罩会使用亮色主题，不会根据操作系统配色自动推断。
+
+当应用没有暴露主题偏好，或 loading 页面需要固定主题时，可手动配置：
+
+```python
+configure(theme_mode="light")  # 或 "dark"
+```
+
+如果应用主题偏好明确设置为 `"system"` 或 `"auto"`，插件仍会读取
+`prefers-color-scheme`。当页面中存在多个持久化主题值时，可用
+`dash_theme_component_id` 指定优先读取的 Dash 组件：
+
+```python
+configure(theme_mode="auto", dash_theme_component_id="theme-provider")
 ```
 
 ## 组件库集成
@@ -198,7 +219,7 @@ configure(pending_selector=None)
 | `dark_background` | `"#0f0f0f"` | 暗色背景。 |
 | `color` | `"#1677ff"` | 亮色 spinner 颜色。 |
 | `dark_color` | `"#4096ff"` | 暗色 spinner 颜色。 |
-| `theme_mode` | `"auto"` | 可选 `"auto"`、`"light"` 或 `"dark"`。 |
+| `theme_mode` | `"auto"` | `"auto"` 自动检测应用主题，未检测到时使用亮色；`"light"` 和 `"dark"` 用于强制指定主题。 |
 | `dash_theme_component_id` | `None` | 优先读取主题状态的 Dash 持久化组件 ID。 |
 | `spinner_size_px` | `28` | Spinner 宽度和高度。 |
 | `spinner_stroke_px` | `3` | Spinner 描边宽度。 |

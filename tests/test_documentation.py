@@ -28,6 +28,9 @@ def test_readmes_use_current_selector_and_installation_examples():
         assert "usage-sidebar-menu" not in readme
         assert "dash-ant-design  # Python 3.10+" not in readme
         assert "feffery-antd-components>=0.4.0" not in readme
+        assert 'theme_mode="auto"' in readme
+        assert 'theme_mode="light"' in readme
+        assert "dash_theme_component_id" in readme
 
 
 def test_readmes_link_to_each_other():

@@ -20,7 +20,7 @@ document.
 ## Installation
 
 ```bash
-pip install "dash-startup-loading-plugin>=1.0.3"
+pip install "dash-startup-loading-plugin>=1.0.4"
 ```
 
 Dash discovers the plugin through its `dash_hooks` entry point. Installing the
@@ -73,6 +73,30 @@ app.layout = html.Main(
         html.Nav("Sidebar", id="sidebar-menu"),
     ]
 )
+```
+
+### Theme behavior
+
+With the default `theme_mode="auto"`, the startup overlay follows an explicit
+application theme from, in order, the root HTML element (including Tailwind's
+`dark`/`light` classes and common theme data attributes), a persisted Dash
+theme component, or conventional theme keys in local storage. If the
+application has not declared a theme preference, the overlay uses the light
+theme; it does not infer a preference from the operating system.
+
+Set the mode explicitly when the application does not expose its preference,
+or when the loading screen should always use one theme:
+
+```python
+configure(theme_mode="light")  # or "dark"
+```
+
+An application preference explicitly set to `"system"` or `"auto"` still
+uses `prefers-color-scheme`. Use `dash_theme_component_id` to prefer one Dash
+component when multiple persisted theme values exist:
+
+```python
+configure(theme_mode="auto", dash_theme_component_id="theme-provider")
 ```
 
 ## Component-library integrations
@@ -207,7 +231,7 @@ configure(pending_selector=None)
 | `dark_background` | `"#0f0f0f"` | Dark background. |
 | `color` | `"#1677ff"` | Light spinner color. |
 | `dark_color` | `"#4096ff"` | Dark spinner color. |
-| `theme_mode` | `"auto"` | `"auto"`, `"light"`, or `"dark"`. |
+| `theme_mode` | `"auto"` | `"auto"` detects application theme signals and otherwise uses light; `"light"` and `"dark"` force a mode. |
 | `dash_theme_component_id` | `None` | Preferred persisted Dash theme component. |
 | `spinner_size_px` | `28` | Spinner width and height. |
 | `spinner_stroke_px` | `3` | Spinner stroke width. |
